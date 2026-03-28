@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StegoVault | Secure Image Steganography</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-animation"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: #4b5563;">
+                    <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M15 9H9V15H15V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h1>StegoVault</h1>
+            </div>
+            <p class="subtitle">Securely hide encrypted messages within images.</p>
+        </header>
+
+        <main class="app-card">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="encode">Encrypt (Hide)</button>
+                <button class="tab-btn" data-tab="decode">Decrypt (Extract)</button>
+            </div>
+
+            <div class="tab-content active" id="encode">
+                <div class="input-group dropzone" id="encode-dropzone">
+                    <input type="file" id="encode-image-input" accept="image/png, image/jpeg, image/jpg" hidden>
+                    <div class="dropzone-content">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                        <p>Drag & Drop an image here or <span class="highlight">Browse</span></p>
+                        <p class="text-sm text-gray">Supports PNG, JPG (Output will be PNG)</p>
+                    </div>
+                    <img id="encode-image-preview" class="image-preview" alt="Preview hidden" />
+                </div>
+                
+                <div class="input-group">
+                    <label for="encode-message">Secret Message</label>
+                    <textarea id="encode-message" placeholder="Enter the sensitive text to hide..."></textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label for="encode-password">Security Key (Password)</label>
+                    <input type="password" id="encode-password" placeholder="Must be used to decrypt later">
+                </div>
+                
+                <button class="btn btn-primary" id="btn-encode">
+                    Hide Message inside Image
+                    <span class="loader" id="encode-loader"></span>
+                </button>
+                
+                <div class="message-box success hidden" id="encode-success">
+                    <p>Image encoded securely! Downloading automatically...</p>
+                </div>
+                <div class="message-box error hidden" id="encode-error">
+                    <p id="encode-error-msg">Error occurred!</p>
+                </div>
+            </div>
+
+            <div class="tab-content" id="decode">
+                <div class="input-group dropzone" id="decode-dropzone">
+                    <input type="file" id="decode-image-input" accept="image/png" hidden>
+                    <div class="dropzone-content">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        <p>Upload a protected image here or <span class="highlight">Browse</span></p>
+                        <p class="text-sm text-gray">Must be a PNG file created by StegoVault</p>
+                    </div>
+                    <img id="decode-image-preview" class="image-preview" alt="Preview hidden" />
+                </div>
+                
+                <div class="input-group">
+                    <label for="decode-password">Security Key (Password)</label>
+                    <input type="password" id="decode-password" placeholder="Enter the password used to hide data">
+                </div>
+                
+                <button class="btn btn-primary" id="btn-decode">
+                    Extract Hidden Message
+                    <span class="loader" id="decode-loader"></span>
+                </button>
+
+                <div class="input-group hidden" id="decode-result-box">
+                    <label>Decrypted Message</label>
+                    <div class="result-text" id="decode-result"></div>
+                </div>
+
+                <div class="message-box error hidden" id="decode-error">
+                    <p id="decode-error-msg">Error occurred!</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <canvas id="internal-canvas" hidden></canvas>
+    
+    <script src="script.js"></script>
+</body>
+</html>
